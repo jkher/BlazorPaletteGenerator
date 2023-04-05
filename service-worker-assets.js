@@ -25,7 +25,7 @@
       "url": "_framework\/icudt.dat"
     },
     {
-      "hash": "sha256-77FjddpzDXhtGiILeSkB\/o0s+NuM\/\/FgogRRhmj51NM=",
+      "hash": "sha256-Wd5GzuEdtN8AuBwPrREipAuetn1+i\/k1IEFicUfrBlE=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -193,5 +193,5 @@
       "url": "manifest.json"
     }
   ],
-  "version": "Elmwsbst"
+  "version": "OwQkCt1f"
 };
