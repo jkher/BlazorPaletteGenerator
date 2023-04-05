@@ -1,0 +1,35 @@
+@inject IImagePreviewService imagePreviewService;
+
+@if (Image != null)
+{
+    <div class="h-full w-full flex items-center justify-center">
+        <img class="p-6" src="@ImageUri" />
+    </div>
+}
+
+@code {
+    [Parameter]
+    public byte[]? Image { get; set; }
+
+    string? ImageUri;
+
+    byte[]? _value;
+
+    protected async override Task OnParametersSetAsync()
+    {
+        if(_value != Image)
+        {
+            if(Image != null)
+            {
+                ImageUri = await imagePreviewService.GetImageUriAsync(Image);
+            }
+            _value = Image;
+        }
+    }
+
+}
+
+
+
+
+

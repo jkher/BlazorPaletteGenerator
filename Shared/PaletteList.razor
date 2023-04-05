@@ -1,0 +1,36 @@
+@inject IPaletteGenerationService paletteGenerationService;
+@inject ISpinnerService spinner;
+
+    <div class="flex flex-wrap gap-2">
+    @if (Palettes != null)
+    {
+        foreach (var p in Palettes)
+        {
+            <ColorCard Palette="p" />
+        }
+    }
+    </div>
+
+@code {
+    [Parameter]
+    public byte[]? Image { get; set; }
+
+    byte[]? _value;
+
+    List<Palette>? Palettes { get; set; }
+
+    protected async override Task OnParametersSetAsync()
+    {
+        if (_value != Image)
+        {
+            if (Image != null)
+            {
+                //ImageUri = await imagePreviewService.GetImageUriAsync(Image);
+                Palettes = await paletteGenerationService.GeneratePalettesAsync(Image);
+            }
+            _value = Image;
+        }
+
+        spinner.Hide();
+    }
+}

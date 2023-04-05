@@ -1,0 +1,55 @@
+@inject IClipboardService clipboardService;
+
+<div class="border inline-block cursor-pointer relative">
+    <div @onclick="HandleOnClick">
+        <div class="w-24 h-24" style="background-color: rgb(@Palette.R,@Palette.G,@Palette.B);">
+            &nbsp;
+        </div>
+        <div class="flex flex-col p-1">
+            <div class="text-md">
+                @($"#{Palette.R:X2}{Palette.G:X2}{Palette.B:X2}")
+            </div>
+            <div class="text-sm text-neutral-400">
+                @($"{string.Format("{0:P2}", Palette.Coverage)}")
+            </div>
+        </div>
+    </div>
+    <div class="cursor-default absolute py-12 z-30 top-0 left-0 right-0 bottom-0 @(IsHidden?"hidden":"flex") items-start justify-center bg-blue-600 text-white opacity-90 transition ease-in-out delay-150">
+        Copied
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Palette Palette { get; set; }
+
+    private System.Timers.Timer? countDown;
+
+    private bool IsHidden = true;
+
+    private async Task HandleOnClick()
+    {
+        StartCountdown();
+        StateHasChanged();
+        string colorHex = $"#{Palette.R:X2}{Palette.G:X2}{Palette.B:X2}";
+        await clipboardService.CopyToClipboard(colorHex);
+        IsHidden = false;
+    }
+
+    private void StartCountdown()
+    {
+        countDown = new System.Timers.Timer(1000);
+        countDown.Elapsed += OnTimedEvent;
+        countDown.AutoReset = true;
+        countDown.Start();
+    }
+
+    private void OnTimedEvent(object? sender, System.Timers.ElapsedEventArgs e)
+    {
+        IsHidden = true;
+        countDown!.Stop();
+        StateHasChanged();
+    }
+
+
+}

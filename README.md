@@ -1,1 +1,1 @@
-# BlazorPaletteGenerator
+# Blazor Color Palette Generator

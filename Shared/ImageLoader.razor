@@ -1,0 +1,65 @@
+@inject ISpinnerService spinner;
+
+<div class="h-full">
+    @if (Type == LoaderType.FULL)
+    {
+        <InputFile id="imageinput" accept=".jpg,.png" OnChange="HandleChange" class="hidden" />
+        <label for="imageinput" class="h-full">
+            <div
+                class="border-2 border-dashed border-blue-600 text-blue-600 transition cursor-pointer h-full flex flex-col items-center justify-center py-8 hover:bg-gray-200">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" viewBox="0 0 16 16"
+                    class="mb-6">
+                    <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                    <path
+                        d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z" />
+                </svg>
+                <p class="font-semibold lg:text-xl tracking-wide">Browse an image to generate color palette</p>
+            </div>
+        </label>
+    }
+    else
+    {
+        <InputFile id="imageinput" accept=".jpg,.png" OnChange="HandleChange" class="hidden" />
+        <label for="imageinput">
+            <div
+                class="py-4 px-4 text-white bg-blue-600 text-center transition cursor-pointer hover:bg-blue-800">
+                <p>Select another image</p>
+            </div>
+        </label>
+    }
+</div>
+
+@code {
+
+    public enum LoaderType
+    {
+        FULL = 0,
+        BUTTON = 1
+    }
+
+    string[] imageTypes = new[] { "image/jpeg", "image/png" };
+
+    [Parameter]
+    public LoaderType Type { get; set; }
+
+    [Parameter]
+    public EventCallback<byte[]> OnImageChange { get; set; }
+
+    async Task HandleChange(InputFileChangeEventArgs e)
+    {
+        if (imageTypes.Contains(e.File.ContentType))
+        {
+            spinner.Show();
+
+            var image = await e.File.RequestImageFileAsync(e.File.ContentType, 600, 600);
+
+            var imageBuffer = new byte[image.Size];
+            using (var stream = image.OpenReadStream())
+            {
+                await stream.ReadAsync(imageBuffer);
+            }
+
+            await OnImageChange.InvokeAsync(imageBuffer);
+        }
+    }
+}

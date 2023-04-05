@@ -1,0 +1,41 @@
+@page "/"
+@inject ISpinnerService spinnerService;
+
+<div class="h-screen w-full flex flex-col lg:flex-row">
+    @if (!hasImage)
+    {
+        <div class="flex-grow">
+            <ImageLoader Type="ImageLoader.LoaderType.FULL" OnImageChange="HandleImageChanged" />
+        </div>
+    }
+    else
+    {
+        <div class="bg-neutral-100 lg:basis-2/3">
+            <ImagePreview Image="Image" />
+        </div>
+        <div class="lg:basis-1/3">
+            <div class="flex flex-col lg:h-screen">
+                <div class="m-6">
+                    <ImageLoader Type="ImageLoader.LoaderType.BUTTON" OnImageChange="HandleImageChanged" />
+                </div>
+                <div class="lg:border-t lg:border-t-neutral-100 lg:flex-grow lg:overflow-y-scroll">
+                    <div class="flex items-center justify-center m-6">
+                        <PaletteList Image="Image" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    bool hasImage = false;
+
+    byte[] Image = new byte[0];
+
+    private void HandleImageChanged(byte[] image)
+    {
+        Image = image;
+        hasImage = true;
+    }
+}
