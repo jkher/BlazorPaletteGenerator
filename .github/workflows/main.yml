@@ -29,7 +29,7 @@ jobs:
 
     # Publishes Blazor project to the release-folder
     - name: Publish .NET Core Project
-      run: dotnet publish Web/Web.csproj -c:Release -p:GHPages=true -o dist/Web --nologo
+      run: dotnet publish src/BlazorPaletteGenerator.csproj -c:Release -p:GHPages=true -o dist/Web --nologo
       
     #commit build to gh-pages
     - name: Commit wwwroot to GitHub Pages
