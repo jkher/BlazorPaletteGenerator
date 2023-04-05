@@ -9,7 +9,7 @@ Blazor Color Palette Generator is a sample .NET Blazor webassembly application t
 
 This application was created as an exprimentation to demonstate adding [ASP.NET Core Blazor WebAssembly native dependencies](https://learn.microsoft.com/en-us/aspnet/core/blazor/webassembly-native-dependencies?view=aspnetcore-7.0) introduced in .NET7 to blazor wasm.
 
-![Screenshot](https://github.com/jkher/BlazorPaletteGenerator/blob/master/Screenshot.png?raw=true)
+![Demo](https://github.com/jkher/BlazorPaletteGenerator/blob/master/Demo.gif?raw=true)
 
 See the working [Demo](https://jkher.github.io/BlazorPaletteGenerator/) of this application hosted on github pages.
 
